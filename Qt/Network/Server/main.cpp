@@ -1,0 +1,16 @@
+#include <QtGui>
+#include "MyServer.h"
+#include <QApplication>
+#include <QLabel>
+#include <QWidget>
+#include <QPushButton>
+#include <QBoxLayout>
+#include <QCoreApplication>
+
+int main(int argc, char** argv)
+{
+ QApplication app(argc, argv);
+ MyServer server(2323);
+ server.show();
+ return app.exec();
+}
