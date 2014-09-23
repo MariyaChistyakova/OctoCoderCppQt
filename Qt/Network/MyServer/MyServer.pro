@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-08-18T21:16:42
+# Project created by QtCreator 2014-08-20T17:06:35
 #
 #-------------------------------------------------
 
@@ -9,14 +9,13 @@ QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Server
+TARGET = MyServer
 TEMPLATE = app
 
 
-SOURCES += main.cpp \
-    MyServer.cpp
+SOURCES += main.cpp\
+        myserver.cpp
 
-HEADERS  += \
-    MyServer.h
+HEADERS  += myserver.h
 
-FORMS    += mainwindow.ui
+FORMS    += myserver.ui
