@@ -1,21 +1,21 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-08-18T22:00:48
+# Project created by QtCreator 2014-08-20T17:07:40
 #
 #-------------------------------------------------
 
 QT       += core gui
 QT       += network
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Client
+TARGET = MyClient
 TEMPLATE = app
 
 
-SOURCES += main.cpp \
-    MyClient.cpp
+SOURCES += main.cpp\
+        myclient.cpp
 
-HEADERS  += \
-    MyClient.h
+HEADERS  += myclient.h
 
-FORMS    += mainwindow.ui
+FORMS    += myclient.ui
