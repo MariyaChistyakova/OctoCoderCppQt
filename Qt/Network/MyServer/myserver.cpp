@@ -18,7 +18,6 @@ MyServer::MyServer(int nPort, QWidget* pwgt /*=0*/) : QWidget(pwgt)
      }
 
      connect(m_ptcpServer, SIGNAL(newConnection()),this, SLOT(slotNewConnection()));
-     connect(m_ptcpServer, SIGNAL(newConnection()),this, SLOT(slotConnection()));
 
      m_ptxt = new QTextEdit;
      m_ptxt->setReadOnly(true);
@@ -45,16 +44,17 @@ void MyServer::about()
     QLabel*  lbl = new QLabel("Приложение сервер");
     lbl->show();
 }
-//Вот эта функция не совсем понятна
+
+
 void MyServer::sendToClient(QTcpSocket* pSocket, const QString& str)
 {
      QByteArray arrBlock;
      QDataStream out(&arrBlock, QIODevice::WriteOnly);//??
      out.setVersion(QDataStream::Qt_4_5);
-     out << quint16(0) << QTime::currentTime() << str;
-     out.device()->seek(0);
+     out << quint16(0) << QTime::currentTime() << str;//Размер блока заранее не известен, вместо него записываем 0
+     out.device()->seek(0);//указатель на начало блока
      out << quint16(arrBlock.size()-sizeof(quint16));
-     pSocket->write(arrBlock);
+     pSocket->write(arrBlock);//Данные записываются в сокет
 }
 
 
@@ -70,16 +70,9 @@ void MyServer::sendToClient(QTcpSocket* pSocket, const QString& str)
   );
 
   sendToClient(pClientSocket, "Привет!");
-  //sendToClient(pClientSocket, "How are you?"); //при попытке передать второе сообщение сервер перестает работать
- }
-
-//клиент не отоброжает это сообщение
-void MyServer::slotConnection()
-{
- QTcpSocket* pClientSocket = m_ptcpServer->nextPendingConnection();
-
   sendToClient(pClientSocket, "How are you?");
  }
+
 
 void MyServer::slotReadClient()
 {
@@ -91,9 +84,9 @@ void MyServer::slotReadClient()
     if (pClientSocket->bytesAvailable() < sizeof(quint16)) {
     break;
     }
-    in >> m_nNextBlockSize;//Данные для передачи записываются в переменную.
+    in >> m_nNextBlockSize;//Переданные данные
     }
-    if (pClientSocket->bytesAvailable()/*количество байт для передачи*/ < m_nNextBlockSize) {
+    if (pClientSocket->bytesAvailable()/*количество переданных байт*/ < m_nNextBlockSize) {
     break;
     }
     QTime time;
@@ -103,6 +96,7 @@ void MyServer::slotReadClient()
     time.toString() + " " + "Client has sent — " + str;
     m_ptxt->append(strMessage);
     m_nNextBlockSize = 0;
+    sendToClient(pClientSocket, "данные получены");
 }
 }
 

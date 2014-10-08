@@ -7,7 +7,6 @@
 #include <QTextEdit>
 #include <QWidget>
 
-
 class MyServer : public QWidget
 {
     Q_OBJECT
@@ -22,9 +21,7 @@ public:
 public slots:
  void about();
  virtual void slotNewConnection();
- void slotConnection();
  void slotReadClient();
- //void slotWriteClient();
 };
 
 #endif // MYSERVER_H

@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += network
-
+CONFIG += thread
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MyClient
